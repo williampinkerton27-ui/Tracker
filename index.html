@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#111111" />
+  <title>Will Tracker</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="card">
+    <div class="row">
+      <h1>Will Tracker 🧠💪</h1>
+      <span class="pill" id="storagePill">Local</span>
+    </div>
+    <p class="muted">Daily check-in + weekly trend. Offline capable (PWA).</p>
+
+    <div class="row wrap">
+      <label class="field">
+        <span>Date</span>
+        <input type="date" id="date" />
+      </label>
+
+      <button class="btn" id="saveBtn">Save</button>
+      <button class="btn ghost" id="clearDayBtn" title="Clear just this day">Clear day</button>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>Daily inputs</h2>
+
+      <div class="grid2">
+        <label class="field">
+          <span>Weight (kg)</span>
+          <input inputmode="decimal" id="weight" placeholder="e.g. 105.0" />
+        </label>
+
+        <label class="field">
+          <span>Protein (g)</span>
+          <input inputmode="numeric" id="protein" placeholder="e.g. 180" />
+        </label>
+
+        <label class="field">
+          <span>Steps</span>
+          <input inputmode="numeric" id="steps" placeholder="e.g. 6500" />
+        </label>
+
+        <label class="field">
+          <span>Sleep (hours)</span>
+          <input inputmode="decimal" id="sleep" placeholder="e.g. 6.0" />
+        </label>
+
+        <label class="field">
+          <span>Takeaway count</span>
+          <input inputmode="numeric" id="takeaway" placeholder="0–3" />
+        </label>
+
+        <label class="field">
+          <span>Caffeine cutoff met? (no stims after 2pm)</span>
+          <select id="caffeineCutoff">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="field">
+        <span>Notes (reflux / mood / heat / cravings)</span>
+        <textarea id="notes" rows="3" placeholder="Short notes..."></textarea>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Non-negotiables ✅</h2>
+      <div class="checks">
+        <label class="check"><input type="checkbox" id="nnProtein" /> Hit protein target</label>
+        <label class="check"><input type="checkbox" id="nnSteps" /> Hit steps target</label>
+        <label class="check"><input type="checkbox" id="nnWater" /> 3–4L + electrolytes</label>
+        <label class="check"><input type="checkbox" id="nnCaffeine" /> Caffeine cutoff</label>
+        <label class="check"><input type="checkbox" id="nnSnack" /> One planned night snack (no grazing)</label>
+      </div>
+
+      <hr class="sep" />
+
+      <h2>Training done 🏋️‍♂️</h2>
+      <div class="checks">
+        <label class="check"><input type="checkbox" id="didWorkPT" /> Work PT (AM)</label>
+        <label class="check"><input type="checkbox" id="didGym" /> Gym (PM)</label>
+        <label class="check"><input type="checkbox" id="didRun" /> Run session (extra)</label>
+        <label class="check"><input type="checkbox" id="didMobility" /> Mobility / recovery</label>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>7-day summary 📈</h2>
+      <div class="summary">
+        <div>
+          <div class="muted">Weight trend</div>
+          <div id="sparkline" class="sparkline"></div>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="muted">Avg protein</div>
+            <div class="big" id="avgProtein">—</div>
+          </div>
+          <div class="stat">
+            <div class="muted">Avg steps</div>
+            <div class="big" id="avgSteps">—</div>
+          </div>
+          <div class="stat">
+            <div class="muted">Avg sleep</div>
+            <div class="big" id="avgSleep">—</div>
+          </div>
+          <div class="stat">
+            <div class="muted">Takeaways</div>
+            <div class="big" id="sumTakeaway">—</div>
+          </div>
+          <div class="stat">
+            <div class="muted">Non-negotiable compliance</div>
+            <div class="big" id="nnCompliance">—</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>Backup / move devices 💾</h2>
+      <div class="row wrap">
+        <button class="btn" id="exportBtn">Export JSON</button>
+        <label class="btn ghost" for="importFile">Import JSON</label>
+        <input id="importFile" type="file" accept="application/json" hidden />
+        <button class="btn danger ghost" id="wipeAllBtn" title="Deletes ALL stored data">Wipe all data</button>
+      </div>
+      <p class="muted small">
+        Export creates a file you can commit to GitHub (private repo recommended) or store in iCloud/Drive.
+        Import restores from that file.
+      </p>
+    </section>
+  </main>
+
+  <footer class="muted small">
+    <span>Local-first PWA • No account • No cloud by default</span>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js");
+    }
+  </script>
+</body>
+</html>
